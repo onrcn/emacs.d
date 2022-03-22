@@ -1,54 +1,64 @@
-;; Sane emacs defaults
-(setq inhibit-startup-message t)
-(setq initial-scratch-message "")
-(setq inhibit-startup-echo-area-message t)
-(setq inhibit-startup-screen t)
-(setq initial-major-mode 'text-mode)
-
 ;; No backup files
 (setq make-backup-files nil)
 ;; No auto-save files
 (setq auto-save-default nil)
 
-;; Disable the toolbar
-(tool-bar-mode -1)
-;; Disable the menu bar
-(menu-bar-mode -1)
-;; Disable the scroll bar
-(scroll-bar-mode -1)
-;; Disable the splash screen
-(setq inhibit-splash-screen t)
-;; Disable the bell
-(setq ring-bell-function 'ignore)
+;; Speed up startup
+(setq auto-mode-case-fold nil)
 
-;; Relative line numbers
-(display-line-numbers-mode t)
-(setq display-line-numbers 'relative)
+(unless (or (daemonp) noninteractive)
+  (let ((old-file-name-handler-alist file-name-handler-alist))
+    ;; If `file-name-handler-alist' is nil, no 256 colors in TUI
+    ;; @see https://emacs-china.org/t/spacemacs-centaur-emacs/3802/839
+    (setq file-name-handler-alist
+          (unless (display-graphic-p)
+            '(("\\(?:\\.tzst\\|\\.zst\\|\\.dz\\|\\.txz\\|\\.xz\\|\\.lzma\\|\\.lz\\|\\.g?z\\|\\.\\(?:tgz\\|svgz\\|sifz\\)\\|\\.tbz2?\\|\\.bz2\\|\\.Z\\)\\(?:~\\|\\.~[-[:alnum:]:#@^._]+\\(?:~[[:digit:]]+\\)?~\\)?\\'" . jka-compr-handler))))
+    (add-hook 'emacs-startup-hook
+              (lambda ()
+                "Recover file name handlers."
+                (setq file-name-handler-alist
+                      (delete-dups (append file-name-handler-alist
+                                           old-file-name-handler-alist)))))))
 
-;; Package management
-(require 'package)
-(setq package-enable-at-startup nil)
-;; Melpa, org, elpa, and melpa-stable
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(package-initialize)
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.5)
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            "Recover GC values after startup."
+            (setq gc-cons-threshold 800000
+                  gc-cons-percentage 0.1)))
 
-;; Use-package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(require 'use-package)
-(setq use-package-always-ensure t)
+;; Load path
+;; Optimize: Force "lisp"" and "site-lisp" at the head to reduce the startup time.
+(defun update-load-path (&rest _)
+  "Update `load-path'."
+  (dolist (dir '("site-lisp" "lisp"))
+    (push (expand-file-name dir user-emacs-directory) load-path)))
 
-;; Load the config directory
-(add-to-list 'load-path "~/.emacs.d/lisp")
+(defun add-subdirs-to-load-path (&rest _)
+  "Add subdirectories to `load-path'.
+Don't put large files in `site-lisp' directory, e.g. EAF.
+Otherwise the startup will be very slow. "
+  (let ((default-directory (expand-file-name "site-lisp" user-emacs-directory)))
+    (normal-top-level-add-subdirs-to-load-path)))
 
-(require 'init-looks)
+(advice-add #'package-initialize :after #'update-load-path)
+(advice-add #'package-initialize :after #'add-subdirs-to-load-path)
+
+(update-load-path)
+
+;; This is package management
 (require 'init-packages)
+
+;; Looks, UI, fonts
+(require 'init-looks)
 (require 'init-modeline)
+
+;; QOL will be seperated into different files later.
 (require 'init-qol)
+
+(require 'init-dired)
+
 (require 'init-eaf) ;; Uncomment this line if you installed and want to use EAF, to see what EAF is: https://github.com/emacs-eaf/emacs-application-framework
 
 ;;; init.el ends here
