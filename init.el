@@ -59,6 +59,6 @@ Otherwise the startup will be very slow. "
 
 (require 'init-dired)
 
-(require 'init-eaf) ;; Uncomment this line if you installed and want to use EAF, to see what EAF is: https://github.com/emacs-eaf/emacs-application-framework
+;; (require 'init-eaf) ;; Uncomment this line if you installed and want to use EAF, to see what EAF is: https://github.com/emacs-eaf/emacs-application-framework
 
 ;;; init.el ends here

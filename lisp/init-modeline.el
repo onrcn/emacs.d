@@ -5,15 +5,15 @@
 ;;; The modeline is not part of the buffer list, but it is displayed in the same way as the other buffers.
 ;;;
 
-;; Modeline font
-(set-face-attribute 'mode-line nil :font "3270Medium Nerd Font-20")
+;; Enable doom modeline
+(doom-modeline-mode 1)
+;; Doom modeline theme
+(setq doom-modeline-height 25)
+(setq doom-modeline-bar-width 3)
 
-;; Add time to the modeline
-(setq display-time-day-and-date t)
-(display-time-mode 1)
-
-;; Display battery if available
-(display-battery-mode 1)
+;; Doom modeline batery
+(setq doom-modeline-battery-enable t)
+(setq doom-modeline-battery-format "BAT: %b%p")
 
 (provide 'init-modeline)
 ;;; init-modeline.el ends here
