@@ -29,7 +29,6 @@
 ;; all-the-icons
 (use-package all-the-icons
   :ensure t)
-
 ;; dired icon
 (use-package dired-icon
   :ensure t)
@@ -48,6 +47,10 @@
 
 ;; Ivy-rich
 (use-package ivy-rich
+  :ensure t)
+
+;; Swiper
+(use-package swiper
   :ensure t)
 
 ;; Hydra

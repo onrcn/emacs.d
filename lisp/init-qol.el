@@ -10,40 +10,29 @@
 
 ;; Evaluate init.el
 (global-set-key (kbd "C-c e") 'eval-init-file)
-
 ;; To open file under the cursor
 (global-set-key (kbd "C-c f") 'find-file-under-cursor)
-
 ;; Open the current file in VS Code
-(global-set-key (kbd "C-c v") 'open-file-in-vscode)
+(global-set-key (kbd "C-c c") 'open-file-in-vscode)
+;; Ivy-based interface to standard commands
+(global-set-key (kbd "C-s") 'swiper-isearch)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "M-y") 'counsel-yank-pop)
+(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+(global-set-key (kbd "<f1> l") 'counsel-find-library)
+(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+(global-set-key (kbd "<f2> j") 'counsel-set-variable)
+(global-set-key (kbd "C-x b") 'ivy-switch-buffer)
+(global-set-key (kbd "C-c v") 'ivy-push-view)
+(global-set-key (kbd "C-c V") 'ivy-pop-view)
 
-;; Open the current file in Neovim
-(defun open-file-in-neovim ()
-  "Open the current file in Neovim"
-  (interactive)
-  (let ((file-name buffer-file-name))
-    (if file-name
-        (start-process "open-file-in-neovim" "*open-file-in-neovim*" "nvim" file-name)
-      (message "No file associated to this buffer."))))
-
-;; If you are working on LaTeX, you can use this to compile
-;; the current file and open the PDF in Emacs
-(defun latex-compile-and-open ()
-  "Compile the current file and open the PDF"
-  (interactive)
-  (let ((file-name buffer-file-name))
-    (if file-name
-        (progn
-          (shell-command (concat "pdflatex " file-name))
-          (shell-command (concat "evince " (replace-regexp-in-string ".tex" ".pdf" file-name))))
-      (message "No file associated to this buffer."))))
 ;; If we are in a .tex file, we can use C-c C-c to compile and open
 (add-hook 'latex-mode-hook
           (lambda ()
             (local-set-key (kbd "C-c C-c") 'latex-compile-and-open)))
-
-;; Trim whitespace when saving
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; If you want to Google something, use C-c g
 (global-set-key (kbd "C-c g") 'google-this)
@@ -53,6 +42,9 @@
     (write-region "" nil "~/.emacs.d/custom.el"))
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
+
+;; Trim whitespace when saving
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (provide 'init-qol)
 ;;; init-qol.el ends here

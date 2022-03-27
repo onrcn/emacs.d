@@ -35,5 +35,23 @@
         (start-process "open-file-in-vscode" "*open-file-in-vscode*" "code" file-name)
       (message "No file associated to this buffer."))))
 
+(defun open-file-in-neovim ()
+  "Open the current file in Neovim"
+  (interactive)
+  (let ((file-name buffer-file-name))
+    (if file-name
+        (start-process "open-file-in-neovim" "*open-file-in-neovim*" "nvim" file-name)
+      (message "No file associated to this buffer."))))
+
+(defun latex-compile-and-open ()
+  "Compile the current file and open the PDF"
+  (interactive)
+  (let ((file-name buffer-file-name))
+    (if file-name
+        (progn
+          (shell-command (concat "pdflatex " file-name))
+          (shell-command (concat "evince " (replace-regexp-in-string ".tex" ".pdf" file-name))))
+      (message "No file associated to this buffer."))))
+
 (provide 'init-functions)
 ;;; init-functions.el ends here
