@@ -18,7 +18,7 @@
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 ;; Load the theme
-(load-theme 'doom-gruvbox-light t)
+(load-theme 'doom-ephemeral t)
 
 (provide 'init-looks)
 ;;; looks.el ends here

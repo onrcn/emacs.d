@@ -86,5 +86,14 @@
 (use-package rainbow-delimiters
   :ensure t)
 
+;; Magit
+(use-package magit
+  :ensure t)
+
+;; Projectile
+(use-package projectile
+  :ensure t)
+
+
 (provide 'init-packages)
 ;;; init-package.el ends here

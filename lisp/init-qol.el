@@ -1,9 +1,12 @@
 ;;; Quality of life improvements
 
 (require 'init-functions)
-
+(require 'init-ivy)
 ;; which-key mode
 (which-key-mode)
+
+;; No error bell
+(setq ring-bell-function 'ignore)
 
 ;; Evaluate init.el
 (global-set-key (kbd "C-c e") 'eval-init-file)
@@ -12,7 +15,6 @@
 (global-set-key (kbd "C-c f") 'find-file-under-cursor)
 
 ;; Open the current file in VS Code
-
 (global-set-key (kbd "C-c v") 'open-file-in-vscode)
 
 ;; Open the current file in Neovim
