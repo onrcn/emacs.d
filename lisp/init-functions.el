@@ -43,15 +43,17 @@
         (start-process "open-file-in-neovim" "*open-file-in-neovim*" "nvim" file-name)
       (message "No file associated to this buffer."))))
 
-(defun latex-compile-and-open ()
-  "Compile the current file and open the PDF"
+;; Compile the tex file and run the pdf 
+(defun compile-and-run-pdf ()
+  "Compile the tex file and run the pdf"
   (interactive)
   (let ((file-name buffer-file-name))
     (if file-name
         (progn
-          (shell-command (concat "pdflatex " file-name))
-          (shell-command (concat "evince " (replace-regexp-in-string ".tex" ".pdf" file-name))))
+          (shell-command (concat "pdflatex " (file-name-base file-name)))
+          (shell-command (concat "open " (file-name-base file-name) ".pdf")))
       (message "No file associated to this buffer."))))
+
 
 (provide 'init-functions)
 ;;; init-functions.el ends here

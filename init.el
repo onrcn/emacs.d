@@ -8,8 +8,6 @@
 
 (unless (or (daemonp) noninteractive)
   (let ((old-file-name-handler-alist file-name-handler-alist))
-    ;; If `file-name-handler-alist' is nil, no 256 colors in TUI
-    ;; @see https://emacs-china.org/t/spacemacs-centaur-emacs/3802/839
     (setq file-name-handler-alist
           (unless (display-graphic-p)
             '(("\\(?:\\.tzst\\|\\.zst\\|\\.dz\\|\\.txz\\|\\.xz\\|\\.lzma\\|\\.lz\\|\\.g?z\\|\\.\\(?:tgz\\|svgz\\|sifz\\)\\|\\.tbz2?\\|\\.bz2\\|\\.Z\\)\\(?:~\\|\\.~[-[:alnum:]:#@^._]+\\(?:~[[:digit:]]+\\)?~\\)?\\'" . jka-compr-handler))))
@@ -57,6 +55,8 @@ Otherwise the startup will be very slow. "
 ;; QOL will be seperated into different files later.
 (require 'init-qol)
 
-(require 'init-dired)
+(require 'init-lsp)
+(require 'init-completion)
 
+(require 'init-dired)
 ;;; init.el ends here

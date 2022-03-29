@@ -37,21 +37,7 @@
 (use-package which-key
   :ensure t)
 
-;; Counsel
-(use-package counsel
-  :ensure t)
-
-;; Ivy
-(use-package ivy
-  :ensure t)
-
-;; Ivy-rich
-(use-package ivy-rich
-  :ensure t)
-
-;; Swiper
-(use-package swiper
-  :ensure t)
+;; Vertico
 
 ;; Hydra
 (use-package hydra
@@ -97,6 +83,21 @@
 (use-package projectile
   :ensure t)
 
+;; LSP
+(use-package lsp-mode :commands lsp)
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package company-lsp :commands company-lsp)
+;; C/C++
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+         (lambda () (require 'ccls) (lsp))))
+;; Python
+(use-package lsp-python-ms
+  :ensure t
+  :init (setq lsp-python-ms-auto-install-server t)
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-python-ms)
+                          (lsp))))  ; or lsp-deferred()
 
 (provide 'init-packages)
 ;;; init-package.el ends here
