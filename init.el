@@ -52,8 +52,9 @@ Otherwise the startup will be very slow. "
 (require 'init-looks)
 (require 'init-modeline)
 
-;; QOL will be seperated into different files later.
+;; Quality of life
 (require 'init-qol)
+(require 'init-keybindings)
 
 (require 'init-lsp)
 (require 'init-completion)

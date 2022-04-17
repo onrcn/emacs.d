@@ -83,6 +83,10 @@
 (use-package projectile
   :ensure t)
 
+;; Company
+(use-package company
+  :ensure t)
+
 ;; LSP
 (use-package lsp-mode :commands lsp)
 (use-package lsp-ui :commands lsp-ui-mode)
