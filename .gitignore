@@ -16,3 +16,6 @@
 /url/cookies
 /.mc-lists.el
 /recentf
+/.lsp*
+/custom.el
+/desktop/*
