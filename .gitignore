@@ -1,6 +1,6 @@
-/init.el~
 /elpa/*
 /elpa/
+/transient/history.el
 /auto-save-list/*
 /auto-save-list/
 /#init.el#
