@@ -1,7 +1,5 @@
 ;;; Completions
 
-(use-package vertico
-    :ensure t)
 (require 'vertico)
 
 ;; Cycle back to top/bottom result when the edge is reached
@@ -10,8 +8,6 @@
 ;; Start Vertico
 (vertico-mode 1)
 
-(use-package marginalia
-    :ensure t)
 ;; Configure Marginalia
 (require 'marginalia)
 (setq marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))

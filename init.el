@@ -58,6 +58,7 @@ Otherwise the startup will be very slow. "
 
 (require 'init-lsp)
 (require 'init-completion)
+(require 'init-programming)
 
 (require 'init-dired)
 ;;; init.el ends here

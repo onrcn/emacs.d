@@ -46,5 +46,8 @@
     (setq use-short-answers t)
   (advice-add 'yes-or-no-p :override #'y-or-n-p))
 
+;; Whiteroom mode
+(customize-set-variable 'whiteroom-mode-line-format "%b")
+
 (provide 'init-qol)
 ;;; init-qol.el ends here

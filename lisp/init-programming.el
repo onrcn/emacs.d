@@ -21,21 +21,44 @@
 (setq company-dabbrev-code-modes '(c-mode c++-mode))
 
 ;; Use company with lsp
-(require 'company-lsp)
-(push 'company-lsp company-backends)
+(use-package company
+  :hook (scala-mode . company-mode)
+  :config
+  (setq lsp-completion-provider :capf))
 
-;; Hook electric-pair-mode to programming modes
-(add-hook 'prog-mode-hook #'electric-pair-mode)
-;; Hook company-mode to programming modes
-(add-hook 'prog-mode-hook #'company-mode)
+;; Hook electric-pair-mode to prog mode
+(use-package electric-pair-mode
+  :hook
+  (prog-mode . electric-pair-mode))
+
 ;; Hook display-line-numbers-mode to programming modes, set it 'relative
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
-(add-hook 'prog-mode-hook (lambda () (setq display-line-numbers-type 'relative)))
+(use-package display-line-numbers
+  :hook
+  (prog-mode . (lambda () (setq display-line-numbers 'relative))))
+;; Hook company-mode to programming modes
+(use-package company-mode
+  :hook
+  (prog-mode . company-mode))
 
+;; Enable yasnippet.
+(use-package yasnippet
+  :config
+  (yas-global-mode 1)
+
+  (define-key yas-minor-mode-map [(tab)]        nil)
+  (define-key yas-minor-mode-map (kbd "TAB")    nil)
+  (define-key yas-minor-mode-map (kbd "<tab>")  nil)
+  (define-key yas-minor-mode-map (kbd "<C-return>")  'yas-expand))
+
+;; `fic-mode' - highlight to-do keywords.
+(use-package fic-mode
+  :ensure t
+  :hook
+  (prog-mode . fic-mode))
+  
 ;; Install rust-mode
 (require 'rust-mode)
 (add-hook 'rust-mode-hook #'lsp)
-
 
 (provide 'init-programming)
 ;;; lsp-suggestions.el ends here
